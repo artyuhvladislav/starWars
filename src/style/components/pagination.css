@@ -1,0 +1,29 @@
+.pagination {
+    padding-top: 66px;
+    display: flex;
+}
+
+li > span{
+    display: block;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-left: 5px;
+    background: #FFFFFF;
+    border: 1px solid #BAC6D8;
+    box-shadow: 0px 2px 4px #DDE3EC;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #484F53;
+}
+
+.button-active {
+    background: #EEF1F5;
+}
