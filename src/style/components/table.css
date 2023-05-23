@@ -39,8 +39,12 @@ thead>tr>th:nth-child(1) {
     font-size: 16px;
 }
 
-.icon-sort-top {
+.icon-sort {
     opacity: 0.5;
+}
+
+.icon-sort-active {
+    opacity: 1;
 }
 
 .body-list__item .icon-status {

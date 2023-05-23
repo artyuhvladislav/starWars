@@ -5,7 +5,7 @@ import Status from '../Status/Status'
 
 const TableBodyItem = (props) => {
 
-    const { name, birth, homeworld, vehicles, starships, status, checked } = props
+    const { name, birth, homeworld, vehicles, starships, species, status, checked } = props
     const [isActive, setIsActive] = useState(status)
 
     return (
@@ -14,7 +14,8 @@ const TableBodyItem = (props) => {
                 <CheckBox checked={checked} />
             </td>
             <td>
-                {name}
+                <p>{name}</p>
+                <p style={{ fontSize: '12px' }}>{species}</p>
             </td>
             <td>
                 {birth}

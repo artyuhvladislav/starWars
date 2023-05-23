@@ -1,24 +1,16 @@
 import React from 'react'
 import Search from '../Search/Search'
 import ToolItem from '../ToolItem/ToolItem'
+import { useFilter } from '../../context/FilteredContext'
 
 const ToolList = () => {
+    const [filterOptions] = useFilter()
     return (
         <div class="controls">
             <Search />
-            <ToolItem />
-            <div class="select" id="home">
-                <div class="select__item_active">one</div>
-                <div class="select-arrow">
-                    <i class="material-icons">play_arrow</i>
-                </div>
-            </div>
-            <div class="select" id="status">
-                <div class="select__item_active">one</div>
-                <div class="select-arrow">
-                    <i class="material-icons">play_arrow</i>
-                </div>
-            </div>
+            <ToolItem items={filterOptions.homeWorld.allItems} typeName='homeWorld' />
+            <ToolItem items={filterOptions.species.allItems} typeName='species' />
+            <ToolItem items={filterOptions.status.allItems} typeName='status' />
         </div>
     )
 }

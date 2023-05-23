@@ -1,12 +1,15 @@
 .controls {
     display: flex;
     align-items: flex-start;
+    margin-bottom: 25px;
+    margin-top: 20px;
 }
 
 .controls__item {
     min-width: 110px;
     margin-right: 40px
 }
+
 .search {
     border: 1px solid #BAC6D8;
     border-radius: 5px;
@@ -22,7 +25,7 @@
 
 .select {
     margin-right: 40px;
-    min-width: 110px;
+    min-width: 150px;
     position: relative;
     background: #FFFFFF;
     padding: 11px 8px 11px 12px;
@@ -37,28 +40,43 @@
     content: '';
     top: 10px;
     right: 12px;
-    transform: rotate(90deg);
+    transform: rotate(-90deg);
+    transition: transform ease-in-out 0.2s;
 }
 
 .select-arrow i {
     font-size: 14px;
 }
 
+.select-arrow_rotated {
+    transform: rotate(90deg);
+}
+
 .select__list {
+    display: none;
     margin-top: 10px;
-    min-width: 100px;
-    display: flex;
-    flex-direction: column;
+    max-height: 170px;
+    min-width: 150px;
+    overflow: auto;
 }
-.select__item {
-    margin: 5px 0;
-    /* display: none; */
+
+.select__list_item {
+    padding: 5px;
 }
-.select__item:hover {
+
+.select__list_item:hover {
     background: #484F53;
     color: #fff;
+    border-radius: 5px;
 }
 
 .select__item_active {
     display: block;
+    padding-left: 5px;
+}
+
+.select__list_visible {
+    display: block;
+    max-height: 170px;
+    min-width: 150px;
 }

@@ -17,6 +17,7 @@ const TableBody = ({ data }) => {
                     starships={item.starships}
                     status={item.status}
                     checked={item.checked}
+                    species={item.species}
                 />
             })}
         </tbody>

@@ -12,33 +12,28 @@ const handleFetch = async (data) => {
   return await resultJson.json();
 };
 
-export const fetchPeople = async (page) => {
-  const peopleJson = await fetch(`https://swapi.dev/api/people/?page=${page}`);
+export const fetchPeople = async (page, searchParam = '') => {
+  const url = `https://swapi.dev/api/people/?page=${page}&search=${searchParam}`;
+  const peopleJson = await fetch(url);
   const people = await peopleJson.json();
 
   let vehicles = [],
-    starships = [];
+    starships = [],
+    species = [];
 
   const detailsData = people.results.map(async (i) => {
     const homeworld = await handleFetch(i.homeworld);
     const vehiclesJson = await handleFetch(i.vehicles);
     const starshipsJson = await handleFetch(i.starships);
-
-    // const vehiclesJson = i.vehicles.map(async (url) => {
-    //     const res = await fetch(url)
-    //     return await res.json()
-    // })
-
-    // const starshipsJson = i.starships.map(async (url) => {
-    //     const res = await fetch(url)
-    //     return await res.json()
-    // })
+    const speciesJson = await handleFetch(i.species);
 
     vehicles = await Promise.all(vehiclesJson);
     starships = await Promise.all(starshipsJson);
+    species = await Promise.all(speciesJson);
 
-    // vehicles = vehiclesJson
-    // starships = starshipsJson
+    // vehicles = vehiclesJson;
+    // starships = starshipsJson;
+    // species = speciesJson;
 
     return {
       name: i.name,
@@ -46,6 +41,7 @@ export const fetchPeople = async (page) => {
       homeworld,
       vehicles,
       starships,
+      species,
     };
   });
   return Promise.all(detailsData);
