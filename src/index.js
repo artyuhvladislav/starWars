@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Test } from './Test';
+import { Effect1 } from './DoNotUseEffect1';
+import { Effect2 } from './DoNotUseEffect2';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    {/* <Effect1 /> */}
+    {/* <Test /> */}
+    <Effect2 />
+    {/* <App /> */}
   </React.StrictMode>,
 );
 
