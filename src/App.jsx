@@ -1,20 +1,22 @@
-import { Pagination, Table, ToolList } from "./components";
-import SearchParamProvider from "./context/SearchContext";
-import { FilterProvider } from "./context/FilteredContext";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Login, Signup, Main, Layout, NewTeam } from './pages';
 
-function App() {
+const App = () => {
 
-  return <div className="container">
+  return (
 
-    <h1 className="title">Characters</h1>
-    <SearchParamProvider>
-      <FilterProvider>
-        <ToolList />
-        <Table />
-      </FilterProvider>
-    </SearchParamProvider>
-    {/* <Pagination /> */}
-  </div>;
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Main />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/newTeam" element={<NewTeam />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+
+};
 
 export default App;
