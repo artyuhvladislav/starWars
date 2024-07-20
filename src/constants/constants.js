@@ -1,7 +1,7 @@
 export const URLS = {
-  login: 'http://localhost:5000/api/login',
-  logout: 'http://localhost:5000/api/logout',
-  teams: 'http://localhost:5000/api/teams',
-  signup: 'http://localhost:5000/api/signup',
-  createTeam: 'http://localhost:5000/api/createTeam'
+  login: 'https://starwars-emef.onrender.com/api/login',
+  logout: 'https://starwars-emef.onrender.com/api/logout',
+  teams: 'https://starwars-emef.onrender.com/api/teams',
+  signup: 'https://starwars-emef.onrender.com/api/signup',
+  createTeam: 'https://starwars-emef.onrender.com/api/createTeam'
 };
