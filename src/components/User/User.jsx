@@ -46,7 +46,7 @@ const User = ({ user }) => {
   };
   return (
     <Container>
-      <AvatarName>{user.name}</AvatarName>
+      <AvatarName>{user.userName}</AvatarName>
       <AvatarContainer>
         <img src={avatar} alt="avatar" />
       </AvatarContainer>
