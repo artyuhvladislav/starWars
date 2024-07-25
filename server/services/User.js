@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import User from '../schemas/User.js';
 import Team from '../schemas/Teams.js';
+import { ENERGY } from '../../src/constants/constants.js';
 
 class UserService {
   async register(userData) {
@@ -55,8 +56,8 @@ class UserService {
 
     const user = await User.findById({ _id: id });
     const hours = (new Date() - user.lastActiveDate) / (1000 * 60 * 60);
-    if (hours >= 1) {
-      const updateObj = { energy: 10, lastActiveDate: new Date() };
+    if (hours >= 24) {
+      const updateObj = { energy: ENERGY, lastActiveDate: new Date() };
       const user = await User.findByIdAndUpdate({ _id: id }, updateObj, { new: true });
       return user;
     }

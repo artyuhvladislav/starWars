@@ -24,3 +24,4 @@ export const URLS = {
 };
 
 export const TAP_INCREMENT = 0.1;
+export const ENERGY = 40;
