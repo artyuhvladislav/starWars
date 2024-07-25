@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { ENERGY } from '../constants.js';
 
 const User = new mongoose.Schema({
   userName: { type: (String || Number), required: true },
@@ -6,7 +7,7 @@ const User = new mongoose.Schema({
   isLogged: { type: Boolean, required: true },
   userTeam: { type: Object, default: null },
   lastActiveDate: { type: Date, default: new Date() },
-  energy: { type: Number, default: 10 },
+  energy: { type: Number, default: ENERGY },
   userPoints: {
     points: Number,
     passAccuracy: Number
