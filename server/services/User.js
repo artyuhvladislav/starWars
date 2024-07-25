@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import User from '../schemas/User.js';
 import Team from '../schemas/Teams.js';
-import { ENERGY } from '../../src/constants/constants.js';
+import { ENERGY } from '../constants.js';
 
 class UserService {
   async register(userData) {
