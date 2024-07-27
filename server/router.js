@@ -11,6 +11,9 @@ router.post('/logout', User.logout);
 
 router.get('/teams', Teams.getAll);
 router.post('/createTeam', User.createTeam);
+router.post('/deleteTeam', User.deleteTeam);
+router.post('/editTeam', User.editTeam);
+router.post('/updateEnergy', User.updateEnergy);
 
 export default router;
 

@@ -38,18 +38,29 @@ class UserService {
     return userTeam;
   }
 
-  async editTeam({ editedTeam, id }) {
-    const user = await User.findByIdAndUpdate({ _id: id }, { userTeam: editedTeam }, { new: true });
-    const userTeam = await Team.findByIdAndUpdate({ _id: id }, { userTeam: editedTeam }, { new: true });
+  async editTeam({ team, id, energy }) {
+    const updateObj = { energy, lastActiveDate: new Date(), userTeam: team };
+    const user = await User.findByIdAndUpdate({ _id: id }, updateObj, { new: true });
+    const userTeam = await Team.findByIdAndUpdate({ _id: id }, { ...team }, { new: true });
     return userTeam;
   }
 
-  async deleteTeam(id) {
+  async deleteTeam({ id }) {
     const user = await User.findByIdAndUpdate({ _id: id }, { userTeam: null }, { new: true });
     const deleteCount = await Team.deleteOne({ _id: id });
-    return deleteCount === 1;
+    return deleteCount.acknowledged;
   }
 
+  async updateEnergy({ id }) {
+
+    const user = await User.findById({ _id: id });
+    const hours = (new Date() - user.lastActiveDate) / (1000 * 60 * 60);
+    if (hours >= 1) {
+      const updateObj = { energy: 10, lastActiveDate: new Date() };
+      const user = await User.findByIdAndUpdate({ _id: id }, updateObj, { new: true });
+      return user;
+    }
+  }
 }
 
 export default new UserService();
