@@ -17,52 +17,38 @@ const Container = styled.li`
   }
   }
 `;
+const Arrow = styled.div`
+width: 0;
+height: 0;
+border: 6px solid transparent;
+border-top: 0;
 
-
-const FilterListItem = (props) => {
-  const teams = useTeams();
-  const { title, filterName, onActiveFilter, activeFilter } = props;
-
-  const dispatch = useTeamsDispatch();
-
-  const Arrow = styled.div`
-    width: 0;
-    height: 0;
-    border: 6px solid transparent;
-    border-top: 0;
 `;
-  const SortContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+const SortContainer = styled.div`
+display: flex;
+align-items: center;
+justify-content: space-between;
 
   button {
-    border: 1px solid #1A394C;
-    background: none;
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 8px;
-   
-    cursor: pointer;
+  border: 1px solid #1A394C;
+  background: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 8px;
+  cursor: pointer;
 
-    &:first-child {
-      background: ${(filterName === activeFilter.filterName) && (activeFilter.direction === 'up') ? '#1A394C' : ''};
-      div {
-        background: ${(filterName === activeFilter.filterName) && (activeFilter.direction === 'up') ? '#1A394C' : ''};
-        border-bottom: 8px solid ${(filterName === activeFilter.filterName) && (activeFilter.direction === 'up') ? '#fff' : '#1A394C'};
-      }
+    div {
+      border-bottom-style: solid;
+      border-bottom-width: 8px;
     }
 
     &:last-child {
-      background: ${(filterName === activeFilter.filterName) && (activeFilter.direction === 'down') ? '#1A394C' : ''};
       div {
         transform: rotate(180deg);
-        background: ${(filterName === activeFilter.filterName) && (activeFilter.direction === 'down') ? '#1A394C' : ''};
-        border-bottom: 8px solid ${(filterName === activeFilter.filterName) && (activeFilter.direction === 'down') ? '#fff' : '#1A394C'};
       }
     }
 
@@ -71,6 +57,16 @@ const FilterListItem = (props) => {
     }
   }
 `;
+
+
+const FilterListItem = (props) => {
+  const teams = useTeams();
+  const { title, filterName, onActiveFilter, activeFilter } = props;
+  const dispatch = useTeamsDispatch();
+
+  const isSortDirectionUp = (filterName === activeFilter.filterName) && (activeFilter.direction === 'up');
+  const isSortDirectionDown = (filterName === activeFilter.filterName) && (activeFilter.direction === 'down');
+
 
   const handleSortUp = () => {
     if (teams.length === 0) return;
@@ -96,15 +92,25 @@ const FilterListItem = (props) => {
     <Container>
       <p>{title}</p>
       {filterName && <SortContainer>
-        <button className="first" onClick={handleSortUp}>
-          <Arrow></Arrow>
+        <button style={{
+          background: isSortDirectionUp ? '#1A394C' : ''
+        }} onClick={handleSortUp}>
+          <Arrow style={{
+            background: isSortDirectionUp ? '#1A394C' : '',
+            borderBottomColor: isSortDirectionUp ? '#fff' : '#1A394C'
+          }}></Arrow>
         </button>
-        <button className="second" onClick={handleSortDown}>
-          <Arrow></Arrow>
+        <button style={{
+          background: isSortDirectionDown ? '#1A394C' : ''
+        }} onClick={handleSortDown}>
+          <Arrow style={{
+            background: isSortDirectionDown ? '#1A394C' : '',
+            borderBottomColor: isSortDirectionDown ? '#fff' : '#1A394C'
+          }}></Arrow>
         </button>
       </SortContainer>}
 
-    </Container>
+    </Container >
   );
 };
 

@@ -6,3 +6,5 @@ export { default as ListItem } from './ListItem/ListItem';
 export { default as Search } from './Search/Search';
 export { default as UserTeam } from './UserTeam/UserTeam';
 export { default as User } from './User/User';
+export { default as Stars } from './Stars/Stars';
+export { default as UserTeamDevelop } from './UserTeamDevelop/UserTeamDevelop';

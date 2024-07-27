@@ -6,7 +6,7 @@ const UserContext = createContext(null);
 const UserDispatchContext = createContext(null);
 
 const initialUser = {
-  id: null,
+  _id: null,
   userName: null,
   isLogged: null,
   userTeam: null
@@ -14,10 +14,14 @@ const initialUser = {
 
 export const useUser = () => useContext(UserContext);
 export const useUserDispatch = () => useContext(UserDispatchContext);
+
 export const ACTIONS_TYPES = {
   login: 'login',
   logout: 'logout',
-  updateUserTeam: 'updateUserTeam'
+  updateUserTeam: 'updateUserTeam',
+  deleteTeam: 'deleteTeam',
+  tap: 'tap',
+  setEnergy: 'setEnergy'
 };
 
 
@@ -30,12 +34,34 @@ const userReducer = (user, action) => {
     }
 
     case ACTIONS_TYPES.updateUserTeam: {
-      return { ...user, userTeam: action.userTeam };
+      const userObj = { ...user, userTeam: action.userTeam };
+      return userObj;
     }
 
     case ACTIONS_TYPES.logout: {
       window.localStorage.clear();
       return initialUser;
+    }
+
+    case ACTIONS_TYPES.deleteTeam: {
+      const userObj = { ...user, userTeam: null };
+      return userObj;
+    }
+
+    case ACTIONS_TYPES.tap: {
+      const userObj = {
+        ...user,
+        userTeam: { ...user.userTeam, ...action.payload }
+      };
+      return userObj;
+    }
+
+    case ACTIONS_TYPES.setEnergy: {
+      const userObj = {
+        ...user,
+        energy: action.energy
+      };
+      return userObj;
     }
 
     default: {
@@ -46,7 +72,7 @@ const userReducer = (user, action) => {
 
 
 export const UserProvider = ({ children }) => {
-  const [userLocalStorage, setUserLocalStorage] = useLocalStorage('userName');
+  const [userLocalStorage, setUserLocalStorage] = useLocalStorage('user');
   const [user, dispatch] = useReducer(userReducer, userLocalStorage);
 
 

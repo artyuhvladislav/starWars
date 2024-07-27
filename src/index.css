@@ -25,6 +25,11 @@ input {
   border: none;
 }
 
+.hoveredButton:hover {
+  transition: 0.2s;
+  font-weight: 700;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;

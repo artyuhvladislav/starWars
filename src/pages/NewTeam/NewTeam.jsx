@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { Button } from "../../components";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ACTIONS_TYPES, useUser, useUserDispatch } from "../../context/UserContext";
 import { Link } from "react-router-dom";
 import { URLS } from "../../constants/constants";
+import { rateTeam } from "../../utils/rateTeam";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 
 const Input = styled.input`
@@ -37,14 +39,20 @@ const Container = styled.div`
 const Title = styled.h3`
     font-size: 2rem;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
     font-weight: 400;
 
     @media only screen and (max-width: 600px) {
         font-size: 1.5rem;
         text-align: center;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
+`;
+const Rules = styled.p`
+  margin-bottom: 1rem;
+  b {
+    color: #EB9C00;
+  }
 `;
 const Form = styled.form`
     display: flex;
@@ -68,6 +76,16 @@ const SuccessTitle = styled.h3`
 const SuccessContainer = styled.div`
     padding-bottom: 130px;
 `;
+const CurrentPoints = styled.p`
+  font-size: 20px;
+  margin-bottom: 2rem;
+
+  b {
+    color: {
+      color: #EB9C00;
+    }
+  }
+`;
 
 
 const NewTeam = () => {
@@ -75,12 +93,14 @@ const NewTeam = () => {
     name: '',
     passAccuracy: '',
     points: '',
-    stars: ''
   };
   const user = useUser();
+  const [_, setLocalStorageStateValue] = useLocalStorage('user');
   const dispatch = useUserDispatch();
   const [userTeam, setUserTeam] = useState(initialUserTeam);
+  const [availablePoints, setAvailablePoints] = useState(10);
   const [isSuccess, setIsSuccess] = useState(false);
+  const currentSumPoints = useRef({ passAccuracy: 0, points: 0 });
 
   const buttonStyle = {
     width: '100%',
@@ -89,21 +109,42 @@ const NewTeam = () => {
     color: '#fff'
   };
 
-  const fieldsTouched = Boolean(userTeam.name && userTeam.passAccuracy && userTeam.points && userTeam.stars);
+  const fieldsTouched = Boolean(userTeam.name && userTeam.passAccuracy && userTeam.points);
   const isActive = fieldsTouched;
+
+
 
   const handleChange = (e) => {
     const value = e.target.value;
     const name = e.target.name;
 
-    setUserTeam({ ...userTeam, [name]: value });
+    if (name === 'points' || name === 'passAccuracy') {
+      currentSumPoints.current[name] = +value;
+      const points = currentSumPoints.current.points + currentSumPoints.current.passAccuracy;
+
+      if (points > 10) {
+        currentSumPoints.current.points = 0;
+        currentSumPoints.current.passAccuracy = 0;
+        setUserTeam({ ...userTeam, passAccuracy: '', points: '' });
+        setAvailablePoints(10);
+      } else {
+        setUserTeam({ ...userTeam, [name]: value });
+        setAvailablePoints(10 - points);
+      }
+    } else {
+      setUserTeam({ ...userTeam, [name]: value });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const createNewTeam = async () => {
+      const rating = rateTeam({
+        points: +userTeam.points,
+        passAccuracy: +userTeam.passAccuracy
+      });
       const payload = {
-        team: { ...userTeam, userName: user.userName },
+        team: { ...userTeam, userName: user.userName, stars: rating },
         id: user._id
       };
       const response = await fetch(URLS.createTeam, {
@@ -123,6 +164,7 @@ const NewTeam = () => {
           userTeam: team
         };
         dispatch(payload);
+        setLocalStorageStateValue({ ...user, userTeam: team });
       })
       .catch(err => console.log(err.message));
   };
@@ -148,6 +190,8 @@ const NewTeam = () => {
     ) : (
       <Container>
         <Title>Create your team</Title>
+        <Rules>You have <b>10</b> start points to distribute them to categories: Pass accuracy, Points</Rules>
+        <CurrentPoints>Points left: <b>{availablePoints}</b></CurrentPoints>
         <Form onSubmit={handleSubmit}>
           <Field>
             <Input
@@ -160,7 +204,7 @@ const NewTeam = () => {
           <Field>
             <Input
               type="number"
-              min="1" max="100"
+              min="0" max="10"
               onChange={handleChange}
               value={userTeam.passAccuracy}
               name='passAccuracy'
@@ -170,26 +214,17 @@ const NewTeam = () => {
           <Field>
             <Input
               type="number"
-              min="1" max="100"
+              min="0" max="10"
               onChange={handleChange}
               value={userTeam.points}
               name='points'
               placeholder="Points"
             />
           </Field>
-          <Field>
-            <Input
-              type="number"
-              min="1" max="5"
-              onChange={handleChange}
-              value={userTeam.stars}
-              name='stars'
-              placeholder="Rating"
-            />
-          </Field>
+          { }
           <Button type='submit' isActive={isActive} buttonStyle={buttonStyle}>Create</Button>
         </Form>
-      </Container>
+      </Container >
     )}</>
   );
 

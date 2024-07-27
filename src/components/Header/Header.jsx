@@ -16,6 +16,10 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 1rem 5rem;    
+
+    @media only screen and (max-width: 800px) {
+      padding: 1rem;
+    }
   `;
 
 const Logo = styled.img`
@@ -35,7 +39,6 @@ const InlineBlock = styled.div`
 const Header = () => {
   const navigate = useNavigate();
   const user = useUser();
-  console.log('user========', user);
 
   const handleLogin = () => {
     navigate('/login');
@@ -66,6 +69,7 @@ const Header = () => {
               buttonStyle={{
                 width: '60%',
                 hover: 'bold',
+                color: '#fff',
                 bgColor: '#EB9C00'
               }}>Log in</Button>
           </InlineBlock>)

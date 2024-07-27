@@ -75,7 +75,7 @@ const Icon = styled.img`
 `;
 
 const Login = () => {
-  const [_, setUserLocalStorage] = useLocalStorage('userName');
+  const [_, setUserLocalStorage] = useLocalStorage('user');
 
   const initialForm = {
     name: '',
@@ -97,8 +97,12 @@ const Login = () => {
   };
 
   const handleChange = (event) => {
+
     const value = event.target.value;
     const name = event.target.name;
+    if (form[name] === '') {
+      setError(null);
+    }
     setForm({ ...form, [name]: value });
   };
 
@@ -114,7 +118,11 @@ const Login = () => {
         "Content-Type": "application/json",
       },
     });
-    return await response.json();
+    if (response.status === 200) {
+      return await response.json();
+    }
+
+    throw await response.json();
   };
 
   const handleSubmit = (event) => {

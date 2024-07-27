@@ -24,6 +24,7 @@ const Container = styled.div`
 const AvatarName = styled.p`
   font-size: 16px;
   align-self: center;
+  text-align: center;
 `;
 
 const User = ({ user }) => {

@@ -6,7 +6,8 @@ const TeamsDispatchContext = createContext(null);
 export const ACTIONS_TYPES = {
   getTeams: 'getTeams',
   sort: 'sort',
-  search: 'search'
+  search: 'search',
+  userTeamUpdate: 'userTeamUpdate',
 };
 
 export const useTeams = () => useContext(TeamsContext);
@@ -40,6 +41,7 @@ const teamsReducer = (teams, action) => {
       }
       return sorted;
     }
+
     case ACTIONS_TYPES.search: {
       const search = action.value.toLowerCase();
       return [...teams].filter(team => {
